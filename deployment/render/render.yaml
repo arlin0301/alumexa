@@ -1,0 +1,30 @@
+## Render Deployment Blueprint
+## Paste this file as render.yaml in the ROOT of your git repository
+## Or use the Render dashboard to configure manually (see DEPLOYMENT_GUIDE.md)
+
+services:
+  - type: web
+    name: alumexa-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npx prisma generate
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DATABASE_URL
+        sync: false          # Set manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false          # Set manually in Render dashboard
+      - key: SUPER_ADMIN_EMAIL
+        sync: false
+      - key: SUPER_ADMIN_USERNAME
+        sync: false
+      - key: SUPER_ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: alumexa-uploads
+      mountPath: /var/data/uploads
+      sizeGB: 1

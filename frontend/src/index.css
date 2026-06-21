@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface-50 text-slate-800 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-surface-200 p-4 md:p-6;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-brand-700 border border-brand-200 shadow-sm transition hover:bg-brand-50 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-accent-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-accent-600;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-rose-50 px-4 py-2.5 text-sm font-semibold text-rose-600 border border-rose-200 transition hover:bg-rose-100;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-surface-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 outline-none transition;
+  }
+
+  .label-text {
+    @apply block text-sm font-medium text-slate-600 mb-1.5;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .badge-pending {
+    @apply badge bg-amber-50 text-amber-700 border border-amber-200;
+  }
+
+  .badge-verified {
+    @apply badge bg-emerald-50 text-emerald-700 border border-emerald-200;
+  }
+
+  .badge-rejected {
+    @apply badge bg-rose-50 text-rose-700 border border-rose-200;
+  }
+
+  /* Mobile-first responsive table scroll */
+  .table-container {
+    @apply w-full overflow-x-auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-container table {
+    @apply min-w-[600px] w-full;
+  }
+
+  /* Recharts responsive fixes */
+  .recharts-responsive-container {
+    @apply !w-full;
+  }
+
+  .recharts-surface {
+    @apply !w-full;
+  }
+
+  /* Prevent horizontal scroll on mobile */
+  .overflow-x-hidden {
+    overflow-x: hidden !important;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for sidebar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+
+  /* Content area scrollbar matching brand theme */
+  .scrollbar-brand {
+    scrollbar-width: thin;
+    scrollbar-color: #0F766E #e2e8f0;
+  }
+
+  .scrollbar-brand::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-brand::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 3px;
+  }
+
+  .scrollbar-brand::-webkit-scrollbar-thumb {
+    background: #0F766E;
+    border-radius: 3px;
+  }
+
+  .scrollbar-brand::-webkit-scrollbar-thumb:hover {
+    background: #0B5E57;
+  }
+}

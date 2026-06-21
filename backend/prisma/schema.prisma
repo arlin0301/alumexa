@@ -1,0 +1,234 @@
+// Alumexa Phase 1 — Prisma Schema (SQLite)
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+  binaryTargets   = ["native", "rhel-openssl-3.0.x"]
+}
+
+// ---------------------------------------------------------------------------
+// Core Identity
+// ---------------------------------------------------------------------------
+
+// role: SUPER_ADMIN | STAFF_ADMIN | ALUMNI | STUDENT
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  username     String   @unique
+  password     String
+  role         String
+  isActive     Boolean  @default(true)
+  departmentId Int?
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  alumniProfile  AlumniProfile?
+  studentProfile StudentProfile?
+
+  createdAt DateTime @default(now())
+}
+
+model Department {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  users          User[]
+  alumniProfiles AlumniProfile[]
+  studentProfiles StudentProfile[]
+}
+
+// ---------------------------------------------------------------------------
+// Alumni
+// ---------------------------------------------------------------------------
+
+// currentStatus: WORKING | HIGHER_EDUCATION | EXAM_PREPARATION | OTHERS
+// verificationStatus: PENDING | VERIFIED | REJECTED
+// profileVisibility: PUBLIC | PRIVATE
+// degree: UG | PG | MPHIL | PHD
+model AlumniProfile {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  fullName       String
+  registerNumber String
+  batch          String
+  departmentId   Int
+  department     Department @relation(fields: [departmentId], references: [id])
+  degree         String
+
+  mobile String
+  email  String
+
+  // Extended personal info (editable post-registration)
+  dateOfBirth String?
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  district     String?
+  state        String?
+  country      String?
+  pinCode      String?
+
+  // Structured degree info
+  degreeType         String?  // UG | PG | MPHIL | PHD | MULTIPLE | OTHER
+  degreeCustomName   String?  // used when degreeType = OTHER
+  degreeSpecialization String?
+  degreeInstitution  String?
+
+  currentStatus String
+
+  // Working — extended
+  employmentSector   String?
+  employmentType     String?  // PRIVATE | PUBLIC_GOVT | OTHER
+  organizationName   String?
+  designation        String?
+  location           String?
+  salaryPackage      String?
+  otherSectorDetails String?
+
+  // Higher Education
+  institutionName       String?
+  degreePursuing        String?
+  specialization        String?
+  startYear             String?
+  expectedCompletionYear String?
+
+  // Exam Preparation
+  examName            String?
+  preparationType     String?
+  examInstitutionName String?
+  examStartYear       String?
+  expectedExamYear    String?
+
+  // Others
+  activityName String?
+  description  String?
+
+  verificationStatus String @default("PENDING")
+  rejectionReason    String?
+
+  // Onboarding (post-approval)
+  linkedin  String?
+  portfolio String?
+  website   String?
+
+  mentorCareerGuidance       Boolean @default(false)
+  mentorHigherStudiesGuidance Boolean @default(false)
+  mentorExamPrepGuidance     Boolean @default(false)
+  mentorEntrepreneurshipGuidance Boolean @default(false)
+  mentorInternshipGuidance   Boolean @default(false)
+
+  profileVisibility String @default("PUBLIC")
+
+  careerEntries CareerJourneyEntry[]
+  skills        Skill[]
+  proofDocuments ProofDocument[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// type: WORKING | HIGHER_EDUCATION | EXAM_PREPARATION | OTHER
+model CareerJourneyEntry {
+  id              Int           @id @default(autoincrement())
+  alumniProfileId Int
+  alumniProfile   AlumniProfile @relation(fields: [alumniProfileId], references: [id])
+
+  type String
+
+  // Working
+  employmentSector String?
+  employmentType   String?  // PRIVATE | PUBLIC_GOVT | OTHER
+  organizationName  String?
+  designation       String?
+  location          String?
+  salaryPackage     String?
+
+  // Higher Education
+  institutionName  String?
+  degree           String?
+  specialization   String?
+  degreeType       String?   // structured degree type
+  startYear        String?
+  endYear          String?
+
+  // Entrepreneurship
+  businessName String?
+  industry     String?
+  founderRole  String?
+
+  // Exam Preparation
+  examName        String?
+  preparationType String?
+  examInstitution String?
+
+  // Other Activities
+  activityName String?
+  description  String?
+
+  startDate         String?
+  endDate           String?
+  currentlyActive   Boolean @default(false)
+
+  proofDocuments ProofDocument[]
+
+  createdAt DateTime @default(now())
+}
+
+// docType examples:
+//   Registration: DEGREE_CERTIFICATE | ALUMNI_ID | EMPLOYMENT_PROOF | ADMISSION_PROOF | OTHER
+//   Career entry: EMPLOYEE_ID | OFFER_LETTER | EXPERIENCE_CERTIFICATE | STUDENT_ID |
+//                 ADMISSION_LETTER | MARKSHEET | HALL_TICKET | REGISTRATION_RECEIPT |
+//                 COACHING_PROOF | OTHER
+model ProofDocument {
+  id              Int            @id @default(autoincrement())
+  alumniProfileId Int
+  alumniProfile   AlumniProfile  @relation(fields: [alumniProfileId], references: [id])
+
+  // If linked to a career entry; null means it's a registration-level document
+  careerEntryId   Int?
+  careerEntry     CareerJourneyEntry? @relation(fields: [careerEntryId], references: [id])
+
+  docType         String
+  description     String?        // Alumni-written description of this proof document
+  originalName    String
+  storedName      String         // UUID filename on disk
+  mimeType        String
+  sizeBytes       Int
+
+  uploadedAt      DateTime       @default(now())
+}
+
+model Skill {
+  id              Int           @id @default(autoincrement())
+  alumniProfileId Int
+  alumniProfile   AlumniProfile @relation(fields: [alumniProfileId], references: [id])
+  name            String
+}
+
+// ---------------------------------------------------------------------------
+// Student
+// ---------------------------------------------------------------------------
+
+model StudentProfile {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  fullName       String
+  registerNumber String
+  departmentId   Int
+  department     Department @relation(fields: [departmentId], references: [id])
+  currentYear    String
+  email          String
+
+  // Phase 1+ — Smart Mentor Match
+  careerInterest String?
+
+  createdAt DateTime @default(now())
+}

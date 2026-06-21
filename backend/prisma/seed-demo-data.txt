@@ -1,0 +1,82 @@
+Demo Seed Data for Alumexa Phase 1
+
+This file documents the records created by `npm run seed:demo`.
+
+Super Admin
+-----------
+- Role: SUPER_ADMIN
+- Email: superadmin@alumexa.com
+- Username: superadmin
+- Password: ChangeMe123!
+
+Departments
+-----------
+1. Computer Science
+2. Electronics & Communication
+3. Mechanical Engineering
+
+Staff Admins
+------------
+1. Computer Science
+   - Email: cs_admin@alumexa.com
+   - Username: csadmin
+   - Password: CsAdmin123!
+2. Electronics & Communication
+   - Email: ec_admin@alumexa.com
+   - Username: ecadmin
+   - Password: EcAdmin123!
+3. Mechanical Engineering
+   - Email: me_admin@alumexa.com
+   - Username: meadmin
+   - Password: MeAdmin123!
+
+Alumni
+------
+1. Aarav Sharma
+   - Register No: CS2021001
+   - Department: Computer Science
+   - Status: WORKING
+   - Organization: Zenith Solutions
+   - Role: Software Engineer
+   - Mentor: Career guidance
+   - Public profile: yes
+   - Sample login password: Alumni123!
+2. Meera Nair
+   - Register No: EC2021002
+   - Department: Electronics & Communication
+   - Status: HIGHER_EDUCATION
+   - Institution: IIT Madras
+   - Program: M.Tech in VLSI Design
+   - Mentor: Higher studies guidance
+   - Public profile: yes
+   - Sample login password: Alumni123!
+3. Rohit Singh
+   - Register No: ME2021003
+   - Department: Mechanical Engineering
+   - Status: EXAM_PREPARATION
+   - Exam: GATE
+   - Coaching institute: Prime Institute
+   - Mentor: Exam prep guidance
+   - Public profile: yes
+   - Sample login password: Alumni123!
+
+Students
+--------
+1. Nisha Patel
+   - Register No: ST2024001
+   - Department: Computer Science
+   - Year: 2nd Year
+   - Career interest: Software development and mentorship
+   - Sample login password: Student123!
+2. Vikram Rao
+   - Register No: ST2024002
+   - Department: Electronics & Communication
+   - Year: 3rd Year
+   - Career interest: VLSI and semiconductor design
+   - Sample login password: Student123!
+
+Notes
+-----
+- Run `npm run seed` to create only the Super Admin account.
+- Run `npm run seed:demo` to seed the Super Admin account plus demo departments, staff admins, alumni, and students.
+- The demo data is intended for testing platform features and should be reset before production use.

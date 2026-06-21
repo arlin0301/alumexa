@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: ../../deployment/docker/Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=file:/data/alumexa.db
+      - JWT_SECRET=local_docker_jwt_secret_change_in_prod
+      - PORT=5000
+      - NODE_ENV=production
+      - SUPER_ADMIN_EMAIL=superadmin@alumexa.com
+      - SUPER_ADMIN_USERNAME=superadmin
+      - SUPER_ADMIN_PASSWORD=ChangeMe123!
+    volumes:
+      - alumexa_data:/data
+      - alumexa_uploads:/var/data/uploads
+
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: ../../deployment/docker/Dockerfile.frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  alumexa_data:
+  alumexa_uploads:
