@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Alumexa — Alumni Registry & Verification (Phase 1)
 
 Alumexa is a college alumni management platform connecting **Alumni, Students, Staff
@@ -253,3 +254,7 @@ reasons, shown as mentor cards on the **Smart Mentor Match** page.
 - In production the backend uses `/var/data/uploads` as the uploads directory. The provided Docker configuration mounts the uploads volume to that path.
    - See `deployment/docker/Dockerfile.backend` and `deployment/docker/docker-compose.yml` (uploads volume mounts to `/var/data/uploads`).
    - When running locally in dev mode the uploads folder is `uploads/` at the repository root.
+=======
+# alumexa
+For College
+>>>>>>> 7914526f054ba2d29d4ab555fa73c66d33545686
