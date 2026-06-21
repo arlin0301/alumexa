@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://alumexa-backend.vercel.app/api/:path*"
+      "destination": "https://alumexa-backends.vercel.app/api/:path*"
     },
     {
       "source": "/(.*)",
